@@ -12,4 +12,4 @@ Process:
 7) Analyze topics over time compared with team results and press conference sentiments
 8) Create visualizations to present findings
 9) Create a flask app to generate Jose Mourinho quotes using topics and user defined game scores
-10) Presentation
+10) [Presentation](https://docs.google.com/presentation/d/1u9GSS0hBagihcbB2OA9TURmze0bg9KOhId7KLT3FQGk/edit?usp=sharing)
