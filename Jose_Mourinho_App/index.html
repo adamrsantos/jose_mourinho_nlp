@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> 
+    <link rel="stylesheet" href="./static/bootstrap.css">
+    <link rel="stylesheet" href="./static/timeline.css">
+    <link rel="stylesheet" href="static/d3.slider.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Jose Mourinho Bot</title>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://unpkg.com/d3-simple-slider/build/d3-simple-slider.js"></script>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/d3-transform/1.0.4/d3-transform.js"></script>
+<script src="https://unpkg.com/d3-simple-slider/build/d3-simple-slider.js"></script>
+
+<script type="text/javascript" src="static/gauge.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+  crossorigin="anonymous">
+
+
+
+  </head>
+  <body>
+    <div class="jumbotron text-center">
+      <h1>Jose Mourinho</h1>
+      <p>The Special One</p> 
+    </div>
+    
+<br>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <h2 align='center'>Mourinho Score</h2>
+    </div>
+    <div class="col-sm-8">
+      <h2 align='center'>Opponent Score</h2>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    
+    <div class="row align-items-center">
+      <div class="col-sm">
+        <div id="slider1"></div>
+      </div>
+    </div>
+    
+    <div class="row align-items-center">
+      <div class="col-sm">
+        <div id="slider2"></div>
+      </div>
+    </div>  
+  </div>
+</div>
+
+  <br><br>
+  <div class="container">
+        <div class="row">
+         
+          <div class="col-sm-12">
+            <input id='sub_but' type="submit" class="btn btn-danger" value="Generate Quote" align='center'>
+          </div>
+  </div>
+</div>
+   <br><br>
+           
+<div class="container">
+        <div class="row">
+          
+          
+          <div class="col-sm-6">
+             <h5 id="result" align='center'></h5> 
+            </div>
+  
+</div>
+</div>
+<!-- <div class="container">
+<div class="row">
+<div class="col-sm-6">
+<div class="lineContainer">
+              <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line lineRightEnd"></div>
+              <div class="numberContainer"><div class="numberLeftEnd"></div><div class="number">0</div><div class="number">1</div><div class="number">2</div><div class="number">3</div><div class="number">4</div><div class="number">5</div><div class="number">6</div><div class="number">7</div><div class="number">8</div><div class="number">9</div><div class="number">10</div>
+              </div>
+</div>
+</div>
+</div>
+</div> -->
+   <script>
+
+
+     
+   var mou_score=0;
+   var opp_score=0;
+   
+     
+
+var slider1 = d3.sliderHorizontal()
+    .min(0)
+    .max(10)
+    .step(1)
+    .width(300)
+    .displayValue(true)
+    .on('onchange', val => {
+      
+      mou_score=val;
+      
+    });
+
+  var group1 = d3.select("div#slider1").append("svg")
+    .attr("width", 500)
+    .attr("height", 100)
+    .append("g")
+    .attr("transform", "translate(30,30)");
+
+  group1.call(slider1);
+
+  
+ var slider2 = d3.sliderHorizontal()
+    .min(0)
+    .max(10)
+    .step(1)
+    .width(300)
+    .displayValue(true)
+    .on('onchange', val => {
+     opp_score=val;
+
+    });
+
+  var group1 = d3.select("div#slider2").append("svg")
+    .attr("width", 500)
+    .attr("height", 100)
+    .append("g")
+    .attr("transform", "translate(30,30)");
+
+  group1.call(slider2);
+  
+  var button_sub = d3.select('#sub_but')
+
+  function getquotes(x1,x2){
+        
+          var test = [x1,x2]
+       $.ajax({
+         
+         type: "POST",
+         contentType: "application/json; charset=utf-8",
+         url: "/score",
+         dataType: "json",
+         async: true,
+         data: JSON.stringify(test),
+         success: function (data) {
+           var value = data["score"]
+           var text = d3.select('#result');
+           text.text(value);
+           
+         },
+         error: function (result) {
+          alert("Nope");
+         }
+       })
+
+     }
+
+
+button_sub.on('click',function(){
+  getquotes(mou_score,opp_score)
+});
+
+
+
+   </script>
+
+  </body>
+</html>
